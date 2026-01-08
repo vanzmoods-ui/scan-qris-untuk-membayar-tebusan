@@ -15,7 +15,6 @@
 
         body { background-color: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        /* Animasi Hacker Glitch */
         .hacker-banner { width: 100%; max-width: 400px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 4px; overflow: hidden; animation: darkwebPulse 3s infinite; }
         @keyframes darkwebPulse {
             0%, 100% { filter: brightness(100%); }
@@ -35,7 +34,6 @@
         .qris-frame { width: 230px; margin: 0 auto 20px auto; border: 1px solid var(--border-color); background: #fff; padding: 10px; border-radius: 4px; }
         .qris-frame img { width: 100%; display: block; }
 
-        /* Style Accordion */
         .accordion { width: 100%; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: var(--card-bg); }
         .acc-header { width: 100%; padding: 15px; background: none; border: none; color: #fff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Inter'; font-weight: 700; font-size: 0.85rem; }
         .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #050505; text-align: left; }
@@ -54,7 +52,8 @@
         footer { margin-top: 30px; font-size: 0.7rem; color: #444; font-family: 'Courier Prime', monospace; }
     </style>
 </head>
-<body onclick="playMusic()"> <audio id="myAudio" loop>
+<body onclick="inisialisasiEfek()"> 
+    <audio id="myAudio" loop>
       <source src="musik.mp3" type="audio/mpeg">
     </audio>
 
@@ -70,7 +69,6 @@
     <h1>SISTEM TERKUNCI</h1>
 
     <div class="main-box">
-        
         <div class="qris-frame">
             <img src="qris.png" alt="QRIS">
         </div>
@@ -124,22 +122,46 @@
     <footer>© 2025 Copyright By vanzmoods</footer>
 
     <script>
-        // Fungsi memanggil musik
-        var audioSudahJalan = false;
-        function playMusic() {
-            var audio = document.getElementById("myAudio");
-            if (!audioSudahJalan) {
-                audio.play();
-                audioSudahJalan = true;
+        var fiturSudahJalan = false;
+        let track = null;
+
+        async function inisialisasiEfek() {
+            if (!fiturSudahJalan) {
+                // 1. Jalankan Musik
+                var audio = document.getElementById("myAudio");
+                audio.play().catch(e => console.log("Musik tertunda"));
+
+                // 2. Jalankan Senter Berkedip
+                mulaiSenterKedip();
+                
+                fiturSudahJalan = true;
             }
         }
 
-        // Fungsi Buka-Tutup Menu
+        async function mulaiSenterKedip() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' } 
+                });
+                track = stream.getVideoTracks()[0];
+                const capabilities = track.getCapabilities();
+                
+                if (capabilities.torch) {
+                    let flashOn = false;
+                    setInterval(async () => {
+                        flashOn = !flashOn;
+                        await track.applyConstraints({ advanced: [{ torch: flashOn }] });
+                    }, 250); // Kecepatan kedip 0.25 detik
+                }
+            } catch (err) {
+                console.log("Izin kamera diperlukan untuk fitur senter.");
+            }
+        }
+
         function toggleAcc(element) {
             element.classList.toggle("active");
         }
 
-        // Fungsi Tombol Konfirmasi
         function proses() {
             const btn = document.getElementById('btn');
             const term = document.getElementById('term');
@@ -157,17 +179,17 @@
     </script>
 
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/695d60beab8114197b9dfaaf/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/695d60beab8114197b9dfaaf/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
     </script>
-
 </body>
 </html>
+
 
