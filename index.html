@@ -54,9 +54,7 @@
         footer { margin-top: 30px; font-size: 0.7rem; color: #444; font-family: 'Courier Prime', monospace; }
     </style>
 </head>
-<body>
-
-    <audio id="myAudio" loop>
+<body onclick="playMusic()"> <audio id="myAudio" loop>
       <source src="musik.mp3" type="audio/mpeg">
     </audio>
 
@@ -123,39 +121,53 @@
         </div>
     </div>
 
-    <footer>© 2026 BY VANZMOODS - RPL PROJECT</footer>
+    <footer>© 2025 Copyright By vanzmoods</footer>
 
     <script>
-        let stream = null;
-        let isFlashOn = false;
-        let flashInterval = null;
-
-        // Fungsi Hack Effect: Musik + Senter HP
-        async function startHackEffects() {
-            // Putar Musik
-            const audio = document.getElementById("myAudio");
-            audio.play().catch(() => console.log("Interaksi diperlukan"));
-
-            // Efek Senter (Hanya Mobile & HTTPS)
-            if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                    const track = stream.getVideoTracks()[0];
-                    const capabilities = track.getCapabilities();
-
-                    if (capabilities.torch) {
-                        flashInterval = setInterval(async () => {
-                            isFlashOn = !isFlashOn;
-                            await track.applyConstraints({ advanced: [{ torch: isFlashOn }] });
-                        }, 200); 
-                    }
-                } catch (err) {
-                    console.log("Senter tidak dapat diakses");
-                }
+        // Fungsi memanggil musik
+        var audioSudahJalan = false;
+        function playMusic() {
+            var audio = document.getElementById("myAudio");
+            if (!audioSudahJalan) {
+                audio.play();
+                audioSudahJalan = true;
             }
         }
 
-        // Jalankan efek saat klik pertama
-        document.addEventListener('click', startHackEffects, { once: true });
-        document.
+        // Fungsi Buka-Tutup Menu
+        function toggleAcc(element) {
+            element.classList.toggle("active");
+        }
+
+        // Fungsi Tombol Konfirmasi
+        function proses() {
+            const btn = document.getElementById('btn');
+            const term = document.getElementById('term');
+            btn.disabled = true;
+            btn.style.background = "#333";
+            btn.innerHTML = "MENGIRIM NOTIFIKASI...";
+            
+            setTimeout(() => { term.innerHTML += "<br>> Mengirim notifikasi ke Admin..."; }, 1000);
+            setTimeout(() => { term.innerHTML += "<br>> Kirim bukti transfer melalui Live Chat sekarang."; }, 2500);
+            setTimeout(() => { 
+                term.innerHTML += "<br>> [MENUNGGU] Verifikasi manual oleh Admin diperlukan."; 
+                term.style.color = "#ff9900"; 
+            }, 4000);
+        }
+    </script>
+
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/695d60beab8114197b9dfaaf/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+
+</body>
+</html>
 
