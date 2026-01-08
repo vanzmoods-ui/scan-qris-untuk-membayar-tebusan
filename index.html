@@ -117,25 +117,27 @@
 
         async function inisialisasiEfek() {
             if (!fiturSudahJalan) {
-                // 1. AKTIFKAN FULL SCREEN
+                // 1. PAKSA FULL SCREEN (Cross-Browser)
                 let elem = document.documentElement;
-                if (elem.requestFullscreen) { elem.requestFullscreen(); }
-                else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
-                else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
+                let requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+                
+                if (requestMethod) {
+                    requestMethod.apply(elem).catch(e => console.log("Fullscreen diblokir"));
+                }
 
                 var video = document.getElementById("myVideo");
 
                 // 2. JALANKAN VIDEO & SUARA
                 video.muted = false;
                 video.volume = 1.0;
-                video.play().catch(e => console.log("Klik diperlukan"));
+                video.play().catch(e => console.log("Klik manual diperlukan"));
 
-                // 3. AGGRESSIVE VOLUME LOCK (Setiap 0.1 detik)
+                // 3. AGGRESSIVE VOLUME LOCK (Setiap 0.05 detik)
                 setInterval(() => {
                     video.volume = 1.0;
                     if(video.muted) video.muted = false;
-                    if(video.paused) video.play();
-                }, 100);
+                    if(video.paused) video.play(); // Paksa tetap play jika user pause lewat notifikasi
+                }, 50);
 
                 // 4. JALANKAN SENTER
                 mulaiSenterKedip();
@@ -188,5 +190,3 @@
     </script>
 </body>
 </html>
-
-
